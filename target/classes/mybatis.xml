@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    指定属性配置文件位置-->
+    <properties resource="jdbc.properties"/>
+    <!--       settings 控制mybatis全局行为-->
+    <settings>
+        <!--        设置mybatis输出日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+<!--    PageHelper-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" />
+    </plugins>
+    <!--    环境配置：数据库的连接信息-->
+    <environments default="development">
+        <!--        environment 一個数据库信息的配置，环境-->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--    sql映射文件的位置-->
+    <mappers>
+        <!--        一个mapper指定一个文件的位置
+                    从类路径开始的路径信息 target/classes(类路径)-->
+<!--        <mapper resource="com/bjpowernode/dom/StudentDom.xml"/>-->
+        <package name="com.bjpowernode.dom"/>
+    </mappers>
+</configuration>

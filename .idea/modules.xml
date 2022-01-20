@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ch02-test-method/ch02-test-method.iml" filepath="$PROJECT_DIR$/../ch02-test-method/ch02-test-method.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mybatis_proxy_dao.iml" filepath="$PROJECT_DIR$/mybatis_proxy_dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../动态代理/动态代理.iml" filepath="$PROJECT_DIR$/../动态代理/动态代理.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../动态代理_2/动态代理_2.iml" filepath="$PROJECT_DIR$/../动态代理_2/动态代理_2.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.dom.StudentDom">
+    <!--    查询-->
+    <select id="select" resultType="com.bjpowernode.domain.Student">
+        select * from student order by id;
+    </select>
+    <update id="update">
+        insert into student values(#{id},#{name},#{email},#{age})
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.bjpowernode.domain.Student">
+        select * from student where id = #{id};
+    </select>
+
+    <select id="selectMulitParam" resultType="com.bjpowernode.domain.Student">
+        select * from student where name=#{myname} or age =#{myage};
+    </select>
+
+    <select id="selectParam2" resultType="com.bjpowernode.domain.Student">
+        select * from student where name=#{name} or age = #{age};
+    </select>
+    <!--    使用$排序-->
+    <select id="orderByName" resultType="com.bjpowernode.domain.Student">
+        select * from student order by ${myname};
+    </select>
+
+    <!--    resultMap-->
+    <resultMap id="resultMap" type="com.bjpowernode.domain.StudentMap">
+        <!--        定义主键列-->
+        <id column="id" property="id"/>
+        <!--        定义其他列-->
+        <result column="name" property="stuName"/>
+        <result column="email" property="stuEmail"/>
+        <result column="age" property="stuAge"/>
+    </resultMap>
+    <select id="selectStudentMap" resultMap="resultMap">
+        select * from student where id =  #{id};
+    </select>
+    <!--    模糊查詢-->
+    <select id="selectLike" resultType="com.bjpowernode.domain.Student">
+        select * from student where name like #{name}
+    </select>
+
+    <!--    动态sql if标签-->
+    <select id="selectIf" resultType="com.bjpowernode.domain.Student">
+        select * from student where
+        <if test="name != null,name != '' ">
+            name = #{name}
+        </if>
+        <if test="age > 0">
+            and age > #{age};
+        </if>
+    </select>
+
+<!--    动态sql where标签-->
+    <select id="selectWhere" resultType="com.bjpowernode.domain.Student">
+        select * from student
+        <where>
+            <if test="name != null,name!=''">
+                name=#{name}
+            </if>
+            <if test="age>0">
+                or age>#{age}
+            </if>
+        </where>
+    </select>
+
+<!--    sql代码片段-->
+    <sql id="studentsql">
+         select * from student where id in
+    </sql>
+
+<!--    动态sql foreach 1-->
+    <select id="selectForeach1" resultType="com.bjpowernode.domain.Student">
+        <include refid="studentsql"/>
+        <foreach collection="list" item="myId" open="(" close=")" separator=",">
+            #{myId}
+        </foreach>
+    </select>
+
+<!--    动态sql foreach 2-->
+    <select id="selectForeach2" resultType="com.bjpowernode.domain.Student">
+        select * from student where id in
+        <foreach collection="list" item="stu" open="(" close=")" separator=",">
+            #{stu.id}
+        </foreach>
+    </select>
+<!--    使用分页技术-->
+    <select id="selectAll" resultType="com.bjpowernode.domain.Student">
+        select * from student
+    </select>
+<!--    删除操作-->
+    <delete id="delete">
+        delete from student where id=#{id}
+    </delete>
+<!--    查询学生和班级姓名-->
+    <select id="selectStudentAndClassName" resultType="map">
+        select s.name as sname,c.name as cname from student s join class c on s.classId = c.id
+    </select>
+<!--    查询学生和班级姓名 vo-->
+    <select id="selectStudentAndClassByVo" resultType="com.bjpowernode.vo.StudentAndClass">
+        select s.name as sname,c.name as cname from student s join class c on s.classId=c.id
+    </select>
+<!--    模糊查询，查出名字中带有张的学生信息-->
+    <select id="selectStudentAndClassTwo" resultType="com.bjpowernode.vo.StudentAndClass">
+        select s.name sname,s.id sid , s.email semail,s.age sage,c.name cname from student s join class c on s.classId= c.id where s.name like '%' #{s} '%'
+    </select>
+</mapper>
